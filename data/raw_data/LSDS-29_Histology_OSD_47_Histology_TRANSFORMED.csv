@@ -1,0 +1,16 @@
+Source name,Sample name,Space mission,Spaceflight,Dissection,HE file ID,ORO Positivity (%)
+GC 2,Mmus_C57-6T_LVR_GC_Rep1_G2,CASIS-rr1,Ground,Immediate,G4 GL19-21 HE,14.49
+GC 3,Mmus_C57-6T_LVR_GC_Rep2_G3,CASIS-rr1,Ground,Immediate,G4 GL19-21 HE,13.96
+GC 5,Mmus_C57-6T_LVR_GC_Rep3_G5,CASIS-rr1,Ground,Immediate,G4 GL22-23 HE,17.35
+GC 1,Mmus_C57-6T_LVR_GC_Rep4_G1,CASIS-rr1,Ground,Immediate,G4 GL19-21 HE,12.02
+GC 4,Mmus_C57-6T_LVR_GC_Rep5_G4,CASIS-rr1,Ground,Immediate,G4 GL22-23 HE,16.34
+FLT 1,Mmus_C57-6T_LVR_FLT_Rep1_F1,CASIS-rr1,Flight,Immediate,G5 GL24-26 HE,23.56
+FLT 2,Mmus_C57-6T_LVR_FLT_Rep2_F2,CASIS-rr1,Flight,Immediate,G5 GL24-26 HE,25.56
+FLT 4,Mmus_C57-6T_LVR_FLT_Rep3_F4,CASIS-rr1,Flight,Immediate,G5 GL27-28 HE,16.28
+FLT 3,Mmus_C57-6T_LVR_FLT_Rep4_F3,CASIS-rr1,Flight,Immediate,G5 GL24-26 HE,20.57
+FLT 5,Mmus_C57-6T_LVR_FLT_Rep5_F5,CASIS-rr1,Flight,Immediate,G5 GL27-28 HE,17.43
+BC 1,Mmus_C57-6T_LVR_BSL_Rep1_B1,CASIS-rr1,Basal,Immediate,G6 GL29-31 HE,23.8
+BC 2,Mmus_C57-6T_LVR_BSL_Rep2_B2,CASIS-rr1,Basal,Immediate,G6 GL29-31 HE,19.79
+BC 3,Mmus_C57-6T_LVR_BSL_Rep3_B3,CASIS-rr1,Basal,Immediate,G6 GL29-31 HE,17.44
+BC 4,Mmus_C57-6T_LVR_BSL_Rep4_B4,CASIS-rr1,Basal,Immediate,G6 GL32-33 HE,2.06
+BC 5,Mmus_C57-6T_LVR_BSL_Rep5_B5,CASIS-rr1,Basal,Immediate,G6 GL32-33 HE,4.23
