@@ -3,7 +3,7 @@
   "dataset_path": "data/ml_data/RR1-combined.csv",
   "use_invariance": true,
   "experiment_name": "RR1_ridge_baseline",
-  "models": ["ridge", "naivebayes"],
+  "models": ["naivebayes"],
   "feature_augmentations": [
     "log",
     "sqrt",
