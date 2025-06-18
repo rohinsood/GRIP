@@ -52,6 +52,7 @@ def main():
     feature_voting_enabled = config.get("feature_voting", False)
     top_k = config.get("top_k_features", 20)
     biomedical_analysis_enabled = config.get("biomedical_analysis_enabled", False)
+    run_models = config.get("run_models", False)
 
     # Load and augment data
     data = pd.read_csv(dataset_path)
@@ -63,9 +64,11 @@ def main():
     results_dir = os.path.join("results", experiment_folder_name)
     os.makedirs(results_dir, exist_ok=True)
 
-    # Loop through each model in config
-    for model_name in models:
-        run_model(model_name, augmented_data, config, experiment_folder_name, timestamp, results_dir)
+    if run_models:
+
+        # Loop through each model in config
+        for model_name in models:
+            run_model(model_name, augmented_data, config, experiment_folder_name, timestamp, results_dir)
         
     if feature_voting_enabled and model_results_paths != []:
         voted_csv_path = vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)

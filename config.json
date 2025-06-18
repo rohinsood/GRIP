@@ -7,6 +7,7 @@
   "feature_voting": true,
   "top_k_features": 20,
   "biomedical_analysis_enabled": true,
+  "run_models": true,
   "feature_augmentations": [
     "log",
     "sqrt",
