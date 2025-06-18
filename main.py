@@ -1,8 +1,8 @@
 import json
 import pandas as pd
 from data_augmentation import apply_augmentations
-from regressions.ann_regressor import ANNRegressor
 import os
+from feature_voting import vote_top_features
 from datetime import datetime
 
 import json
@@ -11,6 +11,8 @@ import importlib
 from datetime import datetime
 import pandas as pd
 from data_augmentation import apply_augmentations
+
+model_results_paths = []
 
 def load_model_class(model_name):
     name_map = {
@@ -32,7 +34,9 @@ def load_model_class(model_name):
 def run_model(model_name, data, config, experiment_folder_name, timestamp, results_dir):
     ModelClass = load_model_class(model_name)
     regressor = ModelClass(data, target_column=config["target_column"], config=config, experiment_folder_name=experiment_folder_name)
-    results = regressor.train_and_evaluate()
+    results, results_path = regressor.train_and_evaluate()
+
+    model_results_paths.append(results_path)
 
     print(f"[{model_name}] Training completed.")
     print(results)
@@ -45,6 +49,8 @@ def main():
     dataset_path = config["dataset_path"]
     augmentations = config.get("feature_augmentations", [])
     models = config.get("models", ["ann"])  # default to ANN if not specified
+    feature_voting_enabled = config.get("feature_voting", False)
+    top_k = config.get("top_k_features", 20)
 
     # Load and augment data
     data = pd.read_csv(dataset_path)
@@ -59,7 +65,9 @@ def main():
     # Loop through each model in config
     for model_name in models:
         run_model(model_name, augmented_data, config, experiment_folder_name, timestamp, results_dir)
-
+        
+    if feature_voting_enabled and model_results_paths != []:
+        vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)
 
 if __name__ == "__main__":
     main()

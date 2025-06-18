@@ -10,7 +10,7 @@ class BaseRegressor(ABC):
         self.target_column = target_column
         self.config = config
         self.experiment_folder_name = experiment_folder_name
-        self.results_path = f"results/{experiment_folder_name}/"
+        self.results_path = f"results/model/{experiment_folder_name}/"
 
     def prepare_environment_data(self):
         data = self.data.copy()
@@ -46,9 +46,11 @@ class BaseRegressor(ABC):
             "r": [r],
             "top_features": [top_features_str]
         })
+        
+        file_path = self.results_path+model_type+".csv"
 
         # Example: save to CSV (adjust path as needed)
         # You can customize file path logic elsewhere
-        df.to_csv(self.results_path+model_type+".csv", index=False)
+        df.to_csv(file_path, index=False)
 
-        return df
+        return df, file_path

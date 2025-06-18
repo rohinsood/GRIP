@@ -111,7 +111,7 @@ class ANNRegressor(BaseRegressor):
         feature_importance = dict(zip(X_test.columns, importances))
         top_features = sorted(feature_importance.items(), key=lambda x: x[1], reverse=True)
 
-        results_df = self.save_results(
+        results_df, results_path = self.save_results(
             mse=mse,
             rmse=rmse,
             mae=mae,
@@ -121,7 +121,7 @@ class ANNRegressor(BaseRegressor):
             model_type="ann"
         )
 
-        return results_df
+        return results_df, results_path
 
 
 

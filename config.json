@@ -4,6 +4,8 @@
   "use_invariance": true,
   "experiment_name": "RR1_rf_baseline",
   "models": ["rf"],
+  "feature_voting": true,
+  "top_k_features": 20,
   "feature_augmentations": [
     "log",
     "sqrt",
