@@ -1,0 +1,19 @@
+{
+  "target_column": "ORO Positivity (%)",
+  "n_features": 50,
+  "dataset_path": "data/ml_data/RR1-combined.csv",
+  "use_invariance": true,
+  "experiment_name": "RR1_ann_baseline",
+  "feature_augmentations": [
+    "log",
+    "sqrt",
+    "boxcox",
+    "clr",
+    "mr",
+    "zscore",
+    "quantile",
+    "minmax",
+    "robust",
+    "yeojohnson"
+  ]
+}
