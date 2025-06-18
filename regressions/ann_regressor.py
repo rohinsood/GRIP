@@ -112,10 +112,9 @@ class ANNRegressor(BaseRegressor):
             mae=mae,
             r2=r2,
             r=r,
-            selected_features=selected_features.tolist(),
             top_features=top_features,
         )
 
 
-        return results
+        return results_df
 
