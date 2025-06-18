@@ -65,4 +65,4 @@ def vote_top_features(csv_paths, config_path="config.json", top_k=20):
     df_sorted.head(top_k).to_csv(output_path, index=False)
     print(f"Top {top_k} features saved to: {output_path}")
 
-    return df_sorted.head(top_k)
+    return output_path

@@ -6,6 +6,7 @@
   "models": ["rf"],
   "feature_voting": true,
   "top_k_features": 20,
+  "biomedical_analysis_enabled": true,
   "feature_augmentations": [
     "log",
     "sqrt",

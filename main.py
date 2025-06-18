@@ -4,7 +4,7 @@ from data_augmentation import apply_augmentations
 import os
 from feature_voting import vote_top_features
 from datetime import datetime
-
+from run_gene_enrichment import run_gene_enrichment
 import json
 import os
 import importlib
@@ -51,6 +51,7 @@ def main():
     models = config.get("models", ["ann"])  # default to ANN if not specified
     feature_voting_enabled = config.get("feature_voting", False)
     top_k = config.get("top_k_features", 20)
+    biomedical_analysis_enabled = config.get("biomedical_analysis_enabled", False)
 
     # Load and augment data
     data = pd.read_csv(dataset_path)
@@ -67,7 +68,11 @@ def main():
         run_model(model_name, augmented_data, config, experiment_folder_name, timestamp, results_dir)
         
     if feature_voting_enabled and model_results_paths != []:
-        vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)
+        voted_csv_path = vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)
+
+    if biomedical_analysis_enabled:
+        run_gene_enrichment(voted_csv_path, experiment_name, timestamp)
+
 
 if __name__ == "__main__":
     main()
