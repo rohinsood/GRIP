@@ -2,8 +2,8 @@
   "target_column": "ORO Positivity (%)",
   "dataset_path": "data/ml_data/RR1-combined.csv",
   "use_invariance": true,
-  "experiment_name": "RR1_ridge_baseline",
-  "models": ["naivebayes"],
+  "experiment_name": "RR1_rf_baseline",
+  "models": ["rf"],
   "feature_augmentations": [
     "log",
     "sqrt",

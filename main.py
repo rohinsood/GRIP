@@ -18,6 +18,9 @@ def load_model_class(model_name):
         "ridge": ("ridge_regressor", "RidgeRegressor"),
         "naivebayes": ("naivebayes_regressor", "NaiveBayesRegressor"),
         "naive_bayes": ("naivebayes_regressor", "NaiveBayesRegressor"),
+        "randomforest": ("randomforest_regressor", "RandomforestRegressor"),
+        "random_forest": ("randomforest_regressor", "RandomforestRegressor"),
+        "rf": ("randomforest_regressor", "RandomforestRegressor"),
     }
     if model_name not in name_map:
         raise ValueError(f"Model '{model_name}' not recognized.")
