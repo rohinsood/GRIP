@@ -1,1 +1,1 @@
-# GRIP
+# GRIP (Generalizable Regression Inference Platform)
