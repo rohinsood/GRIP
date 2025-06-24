@@ -74,7 +74,7 @@ def main():
         voted_csv_path = vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)
 
     if biomedical_analysis_enabled:
-        run_gene_enrichment(voted_csv_path, top_k)
+        run_gene_enrichment(voted_csv_path, config_path="config.json", top_n=top_k)
 
 
 if __name__ == "__main__":

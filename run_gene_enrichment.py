@@ -53,7 +53,7 @@ def run_gene_enrichment(feature_csv_path, config_path="config.json", top_n=20):
     if combined_results:
         final_df = pd.concat(combined_results, ignore_index=True)
         os.makedirs("results/analysis", exist_ok=True)
-        output_path = os.path.join("results/analysis", f"{experiment_name}_combined_enrichment.csv")
+        output_path = os.path.join("results/analysis", f"{experiment_name}_enrichment.csv")
         final_df.to_csv(output_path, index=False)
         print(f"\n✅ Combined enrichment results saved to:\n{output_path}")
     else:

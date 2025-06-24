@@ -14,7 +14,7 @@ def vote_top_features(csv_paths, config_path="config.json", top_k=20):
     models_used = "_".join(config.get("models", []))
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    output_dir = f"results/analysis"
+    output_dir = f"results/feature_voting"
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, f"fv_{experiment_name}_{models_used}_{timestamp}.csv")
 
