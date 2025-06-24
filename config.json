@@ -1,9 +1,9 @@
 {
   "target_column": "ORO Positivity (%)",
   "dataset_path": "data/ml_data/RR1-combined.csv",
-  "use_invariance": true,
-  "experiment_name": "RR1_rf_baseline",
-  "models": ["rf"],
+  "use_invariance": false,
+  "experiment_name": "RR1_no_inv_baseline",
+  "models": ["ann", "naivebayes", "ridge"],
   "feature_voting": true,
   "top_k_features": 20,
   "biomedical_analysis_enabled": true,

@@ -61,7 +61,7 @@ def main():
     experiment_name = config.get("experiment_name", "experiment")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     experiment_folder_name = f"{experiment_name}_{timestamp}"
-    results_dir = os.path.join("results", experiment_folder_name)
+    results_dir = os.path.join("results/model", experiment_folder_name)
     os.makedirs(results_dir, exist_ok=True)
 
     if run_models:
@@ -74,7 +74,7 @@ def main():
         voted_csv_path = vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)
 
     if biomedical_analysis_enabled:
-        run_gene_enrichment(voted_csv_path, experiment_name, timestamp)
+        run_gene_enrichment(voted_csv_path, top_k)
 
 
 if __name__ == "__main__":
