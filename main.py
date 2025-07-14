@@ -32,9 +32,9 @@ def load_model_class(model_name):
     module = importlib.import_module(f"regressions.{module_file}")
     return getattr(module, class_name)
 
-def run_model(model_name, data, config, experiment_folder_name):
+def run_model(model_name, data, config, invariance, experiment_folder_name):
     ModelClass = load_model_class(model_name)
-    regressor = ModelClass(data, target_column=config["target_column"], config=config, experiment_folder_name=experiment_folder_name)
+    regressor = ModelClass(data, target_column=config["target_column"], config=config, use_invariance=invariance, experiment_folder_name=experiment_folder_name)
     results, results_path = regressor.train_and_evaluate()
 
     model_results_paths.append(results_path)
@@ -51,6 +51,7 @@ def main():
     dataset_path = config["dataset_path"]
     augmentations = config.get("feature_augmentations", [])
     models = config.get("models", ["ann"])
+    invariance = config.get("use_invariance", True)
     feature_voting_enabled = config.get("feature_voting", False)
     top_k = config.get("top_k_features", 20)
     biomedical_analysis_enabled = config.get("biomedical_analysis_enabled", False)
@@ -69,7 +70,7 @@ def main():
 
     if run_models:
         for model_name in models:
-            run_model(model_name, augmented_data, config, experiment_folder_name)
+            run_model(model_name, augmented_data, config, invariance, experiment_folder_name)
 
     voted_csv_path = None
     if feature_voting_enabled and model_results_paths:

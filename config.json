@@ -13,7 +13,7 @@
     "robust",
     "yeojohnson"
   ],
-  "experiment_name": "RR1_standard_baseline",
+  "experiment_name": "RR1_regular",
   "run_models": true,
   "models": ["ridge", "naivebayes", "ann"],
   "use_invariance": false,
