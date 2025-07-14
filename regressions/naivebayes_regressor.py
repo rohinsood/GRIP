@@ -57,8 +57,8 @@ class NaiveBayesRegressor(BaseRegressor):
         y_test = test_data[target_column]
         y_test_disc, bins = discretize_target(y_test)
         X_test_scaled = scaler.transform(X_test)
-
         y_test_pred_class = gnb.predict(X_test_scaled)
+        y_test_pred_class = np.clip(y_test_pred_class, 0, n_bins - 1)
         y_test_pred_reg = 0.5 * (bins[y_test_pred_class] + bins[y_test_pred_class + 1])
 
         mse = mean_squared_error(y_test, y_test_pred_reg)
@@ -90,6 +90,7 @@ class NaiveBayesRegressor(BaseRegressor):
         y_train_full = train_data[target_column]
         X_train_scaled = scaler.transform(X_train_full)
         y_train_pred_class = gnb.predict(X_train_scaled)
+        y_train_pred_class = np.clip(y_train_pred_class, 0, n_bins - 1)
         y_train_pred_reg = 0.5 * (bins[y_train_pred_class] + bins[y_train_pred_class + 1])
 
         self.plot_residuals(y_train_full, y_train_pred_reg, X_train_full, top_features, "train", "naive_bayes")
