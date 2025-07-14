@@ -2,10 +2,11 @@
   "target_column": "ORO Positivity (%)",
   "dataset_path": "data/ml_data/RR1-combined.csv",
   "use_invariance": false,
-  "experiment_name": "RR1_no_inv_baseline",
+  "dowhy_enabled": true,
+  "experiment_name": "RR1_non_inv_baseline",
   "models": ["ann", "naivebayes", "ridge"],
   "feature_voting": true,
-  "top_k_features": 20,
+  "top_k_features": 30,
   "biomedical_analysis_enabled": true,
   "run_models": true,
   "feature_augmentations": [

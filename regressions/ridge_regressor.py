@@ -4,22 +4,12 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.inspection import permutation_importance
 import numpy as np
-import pandas as pd
 from .base_regressor import BaseRegressor
 
 class RidgeRegressor(BaseRegressor):
 
     def train_and_evaluate(self):
-        data = self.data.copy()
-        target_column = self.target_column
-        drop_columns = [target_column, "Sample name", "Environment"]
-
-        raw_data = data[~data["Environment"].str.contains("_")]
-        non_raw_data = data[data["Environment"].str.contains("_")]
-
-        raw_train, raw_test = train_test_split(raw_data, test_size=0.2, random_state=42)
-        train_data = pd.concat([non_raw_data, raw_train], ignore_index=True)
-        test_data = raw_test
+        data, drop_columns, target_column, train_data, test_data = self.prepare_environment_data()
 
         val_data, train_data = train_test_split(
             train_data, train_size=0.1625, random_state=42, stratify=train_data["Environment"]
@@ -48,29 +38,33 @@ class RidgeRegressor(BaseRegressor):
         grid_search.fit(X_val_scaled, y_val)
         best_params = grid_search.best_params_
 
-        # Step 2: Sequential environment training with incremental validation
         environments = train_data["Environment"].unique()
         model = Ridge(random_state=42, **best_params)
 
-        for e_train in environments:
-            train_env_data = train_data[train_data["Environment"] == e_train]
-            X_train_env = train_env_data.drop(columns=drop_columns)
-            y_train_env = train_env_data[target_column]
-            X_train_scaled = scaler.transform(X_train_env)
+        if self.use_invariance:
+            for e_train in environments:
+                train_env_data = train_data[train_data["Environment"] == e_train]
+                X_train_env = train_env_data.drop(columns=drop_columns)
+                y_train_env = train_env_data[target_column]
+                X_train_scaled = scaler.transform(X_train_env)
+                model.fit(X_train_scaled, y_train_env)
 
-            model.fit(X_train_scaled, y_train_env)
+                for e_val in environments:
+                    if e_val == e_train:
+                        continue
+                    val_env_data = train_data[train_data["Environment"] == e_val]
+                    X_val_env = val_env_data.drop(columns=drop_columns)
+                    y_val_env = val_env_data[target_column]
+                    X_val_scaled = scaler.transform(X_val_env)
 
-            for e_val in environments:
-                if e_val == e_train:
-                    continue
-                val_env_data = train_data[train_data["Environment"] == e_val]
-                X_val_env = val_env_data.drop(columns=drop_columns)
-                y_val_env = val_env_data[target_column]
-                X_val_scaled = scaler.transform(X_val_env)
-
-                y_pred = model.predict(X_val_scaled)
-                mse = mean_squared_error(y_val_env, y_pred)
-                print(f"Validation MSE after training on {e_train}, tested on {e_val}: {mse:.4f}")
+                    y_pred = model.predict(X_val_scaled)
+                    mse = mean_squared_error(y_val_env, y_pred)
+                    print(f"Validation MSE after training on {e_train}, tested on {e_val}: {mse:.4f}")
+        else:
+            X_train_full = train_data.drop(columns=drop_columns)
+            y_train_full = train_data[target_column]
+            X_train_scaled = scaler.fit_transform(X_train_full)
+            model.fit(X_train_scaled, y_train_full)
 
         X_test = test_data.drop(columns=drop_columns)
         y_test = test_data[target_column]
@@ -99,5 +93,14 @@ class RidgeRegressor(BaseRegressor):
             top_features=top_features,
             model_type="ridge"
         )
+
+        self.plot_residuals(y_test, y_pred_test, X_test, top_features, "test", "ridge")
+
+        X_train_full = train_data.drop(columns=drop_columns)
+        y_train_full = train_data[target_column]
+        X_train_scaled = scaler.transform(X_train_full)
+        y_pred_train = model.predict(X_train_scaled)
+
+        self.plot_residuals(y_train_full, y_pred_train, X_train_full, top_features, "train", "ridge")
 
         return results_df, results_path
