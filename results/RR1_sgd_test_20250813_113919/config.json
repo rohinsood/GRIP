@@ -13,10 +13,10 @@
     "robust",
     "yeojohnson"
   ],
-  "experiment_name": "RR1_full_test_no_inv",
+  "experiment_name": "RR1_sgd_test",
   "run_models": true,
   "models": ["sgd", "naive_bayes", "ann"],
-  "use_invariance": false,
+  "use_invariance": true,
   "feature_voting": true,
   "top_k_features": 20,
   "biomedical_analysis_enabled": true,

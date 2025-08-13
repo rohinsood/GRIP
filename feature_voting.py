@@ -5,7 +5,7 @@ import numpy as np
 from datetime import datetime
 from collections import defaultdict
 
-def vote_top_features(csv_paths, config_path="config.json", top_k=20):
+def vote_top_features(csv_paths, experiment_folder_name, config_path="config.json", top_k=20):
     # Load config
     with open(config_path) as f:
         config = json.load(f)
@@ -14,7 +14,7 @@ def vote_top_features(csv_paths, config_path="config.json", top_k=20):
     models_used = "_".join(config.get("models", []))
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    output_dir = f"results/feature_voting"
+    output_dir = f"results/{experiment_folder_name}/feature_voting"
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, f"fv_{experiment_name}_{models_used}_{timestamp}.csv")
 

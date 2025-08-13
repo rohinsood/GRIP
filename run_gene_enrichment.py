@@ -4,7 +4,7 @@ from gseapy import enrichr
 import mygene
 import json
 
-def run_gene_enrichment(feature_csv_path, config_path="config.json", top_n=20):
+def run_gene_enrichment(feature_csv_path, experiment_folder_name, config_path="config.json", top_n=20):
     # ---- Load config ----
     with open(config_path) as f:
         config = json.load(f)
@@ -52,9 +52,9 @@ def run_gene_enrichment(feature_csv_path, config_path="config.json", top_n=20):
     # ---- Save combined results ----
     if combined_results:
         final_df = pd.concat(combined_results, ignore_index=True)
-        os.makedirs("results/analysis", exist_ok=True)
-        output_path = os.path.join("results/analysis", f"{experiment_name}_enrichment.csv")
-        final_df.to_csv(output_path, index=False)
+        output_path = "results/" + experiment_folder_name + "/analysis"
+        os.makedirs(output_path, exist_ok=True)
+        final_df.to_csv(output_path+"/enrichment.csv", index=False)
         print(f"\n✅ Combined enrichment results saved to:\n{output_path}")
     else:
         print("⚠️ No enrichment results to save.")

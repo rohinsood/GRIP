@@ -12,6 +12,7 @@ from datetime import datetime
 import pandas as pd
 from data_augmentation import apply_augmentations
 from run_dowhy import run_dowhy_analysis
+import shutil
 
 model_results_paths = []
 
@@ -24,6 +25,7 @@ def load_model_class(model_name):
         "randomforest": ("randomforest_regressor", "RandomforestRegressor"),
         "random_forest": ("randomforest_regressor", "RandomforestRegressor"),
         "rf": ("randomforest_regressor", "RandomforestRegressor"),
+        "sgd": ("sgd_regressor", "SGDRegressorModel"),
     }
     if model_name not in name_map:
         raise ValueError(f"Model '{model_name}' not recognized.")
@@ -46,7 +48,7 @@ def run_model(model_name, data, config, invariance, experiment_folder_name):
 def main():
     with open("config.json") as f:
         config = json.load(f)
-
+        
     target_column = config["target_column"]
     dataset_path = config["dataset_path"]
     augmentations = config.get("feature_augmentations", [])
@@ -65,8 +67,16 @@ def main():
     experiment_name = config.get("experiment_name", "experiment")
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     experiment_folder_name = f"{experiment_name}_{timestamp}"
-    results_dir = os.path.join("results/model", experiment_folder_name)
+    results_dir = os.path.join("results/", experiment_folder_name)
     os.makedirs(results_dir, exist_ok=True)
+    
+    try:
+        shutil.copy("config.json", results_dir)
+        print(f"File 'config.json' copied to '{results_dir}' successfully.")
+    except FileNotFoundError:
+        print(f"Error: Source file 'config.json' not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
     if run_models:
         for model_name in models:
@@ -74,10 +84,10 @@ def main():
 
     voted_csv_path = None
     if feature_voting_enabled and model_results_paths:
-        voted_csv_path = vote_top_features(model_results_paths, config_path="config.json", top_k=top_k)
+        voted_csv_path = vote_top_features(model_results_paths, experiment_folder_name, config_path="config.json", top_k=top_k)
 
     if biomedical_analysis_enabled:
-        run_gene_enrichment(voted_csv_path, config_path="config.json", top_n=top_k)
+        run_gene_enrichment(voted_csv_path, experiment_folder_name, config_path="config.json", top_n=top_k)
 
     if dowhy_enabled:
         if not voted_csv_path:
@@ -86,7 +96,7 @@ def main():
             data_path=dataset_path,
             target_column=target_column,
             voted_csv_path=voted_csv_path,
-            output_dir=os.path.join("results/dowhy", experiment_folder_name)
+            output_dir=f"results/{experiment_folder_name}/dowhy"
         )
 
 if __name__ == "__main__":

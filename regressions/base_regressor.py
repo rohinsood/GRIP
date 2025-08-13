@@ -10,8 +10,8 @@ class BaseRegressor(ABC):
         self.target_column = target_column
         self.config = config
         self.experiment_folder_name = experiment_folder_name
-        self.results_path = f"results/model/{experiment_folder_name}/"
-        self.use_invariance = use_invariance  # ✅ add invariance flag
+        self.results_path = f"results/{experiment_folder_name}/model"
+        self.use_invariance = use_invariance
 
     def prepare_environment_data(self):
         data = self.data.copy()
@@ -42,13 +42,14 @@ class BaseRegressor(ABC):
             "r": [r],
             "top_features": [top_features_str]
         })
-        file_path = self.results_path + model_type + ".csv"
+        file_path = self.results_path + "/" + model_type + ".csv"
+        os.makedirs(self.results_path, exist_ok=True)
         df.to_csv(file_path, index=False)
         return df, file_path
 
     def plot_residuals(self, y_true, y_pred, X, top_features, dataset_label, model_type):
         residuals = y_true - y_pred
-        graph_dir = f"results/graphs/{self.experiment_folder_name}/{model_type}_{dataset_label}"
+        graph_dir = f"results/{self.experiment_folder_name}/graphs/{model_type}_{dataset_label}"
         os.makedirs(graph_dir, exist_ok=True)
 
         plt.figure(figsize=(8, 5))
