@@ -13,9 +13,9 @@
     "robust",
     "yeojohnson"
   ],
-  "experiment_name": "RR1_all_noninv",
+  "experiment_name": "RR1_rf_test",
   "run_models": true,
-  "models": ["sgd", "ridge", "naive_bayes", "ann"],
+  "models": ["rf"],
   "use_invariance": false,
   "feature_voting": true,
   "top_k_features": 20,
